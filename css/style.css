@@ -1,0 +1,377 @@
+body {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.games {
+  background-color: #303030;
+  min-height: 100vh;
+  padding: 1%;
+}
+.games__flip {
+  width: 40%;
+}
+.games__row {
+  padding: 10px 10px;
+  position: relative;
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.games__row:first-child {
+  background-color: #bdc2c7;
+}
+.games__row:last-child {
+  position: relative;
+  height: 100vh;
+  padding: 0;
+  margin: 2% 0;
+}
+.games__flip-wrap {
+  width: 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #a89c9c;
+  border-radius: 8px;
+  padding: 1% 0;
+  perspective: 500px;
+}
+.games__flip {
+  position: relative;
+  background: rgba(107, 109, 109, 0.2);
+  perspective: 300px;
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+}
+.games__columns {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  padding: 2% 0;
+}
+.games__col {
+  flex: 0 1 30%;
+  margin: 1%;
+}
+
+.column {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  perspective: 1000px;
+  color: #5dcfcf;
+}
+.column__front, .column__back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: 1s linear;
+  backface-visibility: hidden;
+  transform-origin: center top;
+}
+.column__back {
+  transform: rotatey(180deg);
+  display: flex;
+  flex-direction: column;
+  padding: 3%;
+}
+.column__front {
+  user-select: none;
+  cursor: pointer;
+}
+.column__title {
+  margin: 2% 0;
+  font-size: 40px;
+  text-align: center;
+  font-weight: 700;
+}
+.column__info {
+  margin-top: 10px;
+  flex: 1 1 auto;
+  font-size: 16px;
+  padding: 0 5px;
+}
+.column__footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.column:hover .column__front {
+  transform: rotateY(180deg);
+  opacity: 0;
+}
+.column:hover .column__back {
+  transform: rotateY(360deg);
+}
+
+.flip {
+  display: none;
+}
+
+.flip:checked + .games__flip .coin-1 {
+  transform: rotateX(1080deg);
+}
+.flip:checked + .games__flip .coin-2 {
+  transform: rotateX(720deg);
+}
+
+.coin-1,
+.coin-2 {
+  position: absolute;
+  transition: transform 2.5s linear;
+  backface-visibility: hidden;
+  display: inline-block;
+}
+
+.coin-2 {
+  transform: rotateX(180deg);
+}
+
+.img {
+  width: 100%;
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.check-btn {
+  font-size: 20px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 10px 15px;
+  user-select: none;
+  cursor: pointer;
+  position: relative;
+  border-radius: 10px;
+  box-shadow: -2px 3px 2px rgba(107, 109, 109, 0.5);
+}
+.check-btn::after {
+  content: "Yen or Dollar";
+  font-size: 16px;
+  position: absolute;
+  bottom: -24px;
+  right: -53px;
+  opacity: 0;
+  display: inline-block;
+  font-weight: 600;
+  color: #e22a24;
+}
+
+.check-btn:active {
+  transform: rotate(4deg);
+}
+.check-btn:active::after {
+  transform: rotate(-10deg);
+}
+
+.check-btn:hover {
+  transition: 0.5s ease-in;
+  box-shadow: -4px 6px 1px rgba(107, 109, 109, 0.5);
+  top: -2px;
+}
+.check-btn:hover::after {
+  transition: 1.5s;
+  opacity: 1;
+}
+
+.tony-btn {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translate(-50%, 0px) rotate(-360deg);
+  z-index: 5;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #4c4ca1;
+  padding: 10px 20px;
+  border-radius: 15px;
+  user-select: none;
+  cursor: pointer;
+  transform-origin: right bottom;
+  transition: 1s;
+}
+.tony-btn::before {
+  display: inline-block;
+  content: "";
+  position: absolute;
+  background: url(../design/smile.png) no-repeat 50% 50%/cover;
+  top: 0;
+  left: 50%;
+  transform: translatex(-50%);
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  border-radius: 100%;
+  z-index: -1;
+  visibility: hidden;
+  opacity: 0;
+}
+.tony-btn:hover::before {
+  transition: 1s;
+  top: -55%;
+  visibility: visible;
+  opacity: 1;
+}
+.tony-btn:active {
+  transition: 0s;
+  background-color: rgba(128, 119, 119, 0.5);
+  transform: translate(-50%, 0px) rotate(360deg);
+}
+
+.tony-img {
+  transform: translate(-50%, 50px) rotate(-1440deg) scale(0) skew(-500deg);
+  width: 0;
+  height: 0;
+  transform-origin: bottom;
+  position: fixed;
+  top: 0;
+  left: 30%;
+  transition: 1s;
+}
+
+.scr-hid {
+  display: none;
+}
+
+.scr-hid:checked ~ .tony-img {
+  width: 60%;
+  height: 70vh;
+  z-index: 4;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, 50px) rotate(1440deg) scale(1) skew(0deg);
+}
+
+.buy-btn {
+  padding: 15px 30px;
+  color: #fff;
+  border: 1px solid #b4ac7c;
+  border-radius: 8px;
+  background: rgba(93, 207, 207, 0.6);
+  position: relative;
+}
+.buy-btn::before {
+  content: url(..//design/shop.svg);
+  position: absolute;
+  display: none;
+  transition: 1s;
+  right: 4px;
+  bottom: 9px;
+  display: inline-block;
+  opacity: 0;
+  transform: translatex(-90px);
+}
+
+.buy-btn:hover::before {
+  opacity: 1;
+  transform: translatex(0);
+}
+
+.buy-btn:active {
+  background: rgba(130, 207, 207, 0.1);
+  border: none;
+}
+
+.swipe-btn {
+  color: #e0d5d5;
+  position: absolute;
+  z-index: 3;
+  right: 10px;
+  top: 10px;
+  font-size: 20px;
+  background: linear-gradient(180deg, #249faf 0%, #322f6e 100%);
+  border-radius: 6px;
+  padding: 10px 20px;
+  box-shadow: 3px 4px 5px 0px #f4fa52;
+  user-select: none;
+  cursor: pointer;
+}
+
+.swipe-btn:hover {
+  background: linear-gradient(180deg, #322f6e 0%, #249faf 100%);
+  top: 7px;
+  transition: 0.2s;
+  box-shadow: 5px 7px 7px 0px #f4fa52;
+}
+
+.swipe-btn:active {
+  box-shadow: 1px 1px 1px 0px #f4fa52;
+  transition: box-shadow 1s, transform 0.5s;
+  transform: scale(0.8);
+}
+
+.hidden-swipe {
+  display: none;
+}
+
+.hidden-swipe:checked ~ .overlay {
+  display: block;
+}
+
+.overlay {
+  display: none;
+  width: 5%;
+  height: 100%;
+  background: url(../design/jacke.jpg) no-repeat center center/cover;
+  background-attachment: fixed;
+  transition: all 1.5s linear;
+  position: relative;
+  z-index: 2;
+}
+
+.overlay:hover {
+  transition: all 0s;
+  opacity: 0;
+  transform: scale(0);
+}
+
+.spider {
+  position: fixed;
+  z-index: 5;
+  top: 8px;
+  left: 88%;
+  width: 9%;
+  user-select: none;
+  cursor: pointer;
+}
+.spider::before {
+  content: "";
+  background: url(../design/spider-web.svg) no-repeat;
+  display: inline-block;
+  transform: scale(0.6);
+  left: 0;
+  right: 0;
+  top: -52%;
+  bottom: 0;
+  position: absolute;
+}
+.spider::after {
+  content: "";
+  height: 50px;
+  display: inline-block;
+  width: 1px;
+  background-color: aliceblue;
+  transition: 1.5s linear;
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-1px);
+}
+
+.spider-img {
+  transition: 1.5s linear;
+  transform: translate(-4px, 20%);
+}
+
+.spider:hover .spider-img {
+  transition: 1.5s linear;
+  transform: translate(-4px, 94%);
+}
+.spider:hover::after {
+  height: 100%;
+}
